@@ -13,6 +13,18 @@ describe("Thermostat", function() {
     expect(thermostat.MINIMUM_TEMPERATURE).toEqual(10);
   });
 
+  describe("isPowerSaving", function() {
+    it("returns true when power saving is on", function(){      
+      expect(thermostat.isPowerSaving).toEqual(true)
+    })
+  })
+
+  describe("getTemperature", function() {
+    it("retreive the current temperature", function() {
+      expect(thermostat.getTemperature()).toEqual(20)
+    })
+  })
+
   describe("up", function() {
     it("increases temperature", function(){
       thermostat.up()
@@ -33,82 +45,57 @@ describe("Thermostat", function() {
     })
   })
 
-  describe("isPowerSaving", function() {
-    it("returns true when power saving is on", function(){      
-      expect(thermostat.isPowerSaving).toEqual(true)
-    })
-  })
-
   describe("switchOff", function() {
-    it("it switch off into power saving mode", function(){
+    it("it switch off power saving mode", function(){
       thermostat.switchOff()
       expect(thermostat.isPowerSaving).toEqual(false)
     })
   })
   describe("switchOn", function(){
-    it("it switch on into power saving mode", function(){
+    it("switch on into power saving mode", function(){
       thermostat.switchOff()
       thermostat.switchOn()
       expect(thermostat.isPowerSaving).toEqual(true)
     })
   })
+
+  describe("isMinTemperature", function() {
+    it("return true if tempertaure is equak to minimum temperature", function() {
+      expect(thermostat.isMinTemperature()).toEqual(false)
+    })
+  })
+
+  describe("maxTemperature", function() {
+    it("swhen power saving mode is on, should equal 25", function() {
+      expect(thermostat.maxTemperature).toEqual(25)
+    })
+    it("swhen power saving mode is off, should equal 32", function() {
+      thermostat.switchOff()
+      expect(thermostat.maxTemperature).toEqual(32)
+    })
+  })
+
+  describe("reset", function() {
+    it("resets the temperature to the default 20 degree", function() {
+      thermostat.down()
+      thermostat.reset()
+      expect(thermostat.getTemperature()).toEqual(20)
+    })
+  })
+
+  describe("energyUsage", function() {
+    it("returns `low-usage` when under 18 degree", function() {
+      thermostat.temperature = 17;
+      expect(thermostat.energyUsage()).toEqual('low-usage')
+    })
+    it("returns `medium-usage` when less or equal to 25 degree", function() {
+      thermostat.temperature = 25;
+      expect(thermostat.energyUsage()).toEqual('medium-usage')
+    })
+    it("returns `high-usage` when superior to 25 degree", function() {
+      thermostat.temperature = 26;
+      expect(thermostat.energyUsage()).toEqual('high-usage')
+    })
+  })
 });
 
-
-
-
-
-
-
-
-
-
-//   it("should be able to play a Song", function() {
-//     player.play(song);
-//     expect(player.currentlyPlayingSong).toEqual(song);
-
-//     //demonstrates use of custom matcher
-//     expect(player).toBePlaying(song);
-//   });
-
-//   describe("when song has been paused", function() {
-//     beforeEach(function() {
-//       player.play(song);
-//       player.pause();
-//     });
-
-//     it("should indicate that the song is currently paused", function() {
-//       expect(player.isPlaying).toBeFalsy();
-
-//       // demonstrates use of 'not' with a custom matcher
-//       expect(player).not.toBePlaying(song);
-//     });
-
-//     it("should be possible to resume", function() {
-//       player.resume();
-//       expect(player.isPlaying).toBeTruthy();
-//       expect(player.currentlyPlayingSong).toEqual(song);
-//     });
-//   });
-
-//   // demonstrates use of spies to intercept and test method calls
-//   it("tells the current song if the user has made it a favorite", function() {
-//     spyOn(song, 'persistFavoriteStatus');
-
-//     player.play(song);
-//     player.makeFavorite();
-
-//     expect(song.persistFavoriteStatus).toHaveBeenCalledWith(true);
-//   });
-
-//   //demonstrates use of expected exceptions
-//   describe("#resume", function() {
-//     it("should throw an exception if song is already playing", function() {
-//       player.play(song);
-
-//       expect(function() {
-//         player.resume();
-//       }).toThrowError("song is already playing");
-//     });
-//   });
-// });
