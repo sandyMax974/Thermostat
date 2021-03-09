@@ -9,13 +9,32 @@ describe("Thermostat", function() {
     expect(thermostat.temperature).toEqual(20);
   });
 
+  it("should have a minimum temperature of 10 degrees", function() {
+    expect(thermostat.MINIMUM_TEMPERATURE).toEqual(10);
+  });
+
   describe("up", function() {
     it("increases temperature", function(){
-      thermostat.up(2)
-      expect(thermostat.temperature).toEqual(22);
+      thermostat.up()
+      expect(thermostat.temperature).toEqual(21);
     })
   })
+
+  describe("down", function() {
+    it("decreases temperature", function() {
+      thermostat.down()
+      expect(thermostat.temperature).toEqual(19)
+    })
+
+    it("doesn't decreases temperature under 10 degrees", function() {
+      thermostat.temperature = 10
+      thermostat.down()
+      expect(thermostat.temperature).toEqual(10)
+    })
+  })
+
 });
+
 
 
 
