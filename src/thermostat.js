@@ -1,8 +1,10 @@
+'use strict'
+
 class Thermostat {
   constructor() {
     this.temperature = 20;
     this.MINIMUM_TEMPERATURE = 10;
-    this.isPowerSaving = true;
+    this.powerSaving = true;
     this.maxTemperature = 25;
   }
 
@@ -10,34 +12,44 @@ class Thermostat {
     return this.temperature
   }
 
-  isMinTemperature(){
-    return this.temperature === this.MINIMUM_TEMPERATURE
-  }
-
   up() {
-     this.temperature += 1
+    if (this.isMaxTemperature()) {
+     return;
+    }
+    this.temperature += 1
   }
 
   down() {
     if (this.isMinTemperature()) {
-      this.temperature -= 0
-    } else {
-      this.temperature -= 1
+      return;
     }
+    this.temperature -= 1
   }
 
   switchOn() {
-    this.isPowerSaving = true
+    this.powerSaving = true;
     this.maxTemperature = 25;
   }
 
   switchOff() {
-    this.isPowerSaving = false
+    this.powerSaving = false
     this.maxTemperature = 32;
   }
 
   reset() {
     this.temperature = 20;
+  }
+
+  isPowerSavingOn() {
+    return this.powerSaving
+  }
+
+  isMinTemperature() {
+    return this.temperature === this.MINIMUM_TEMPERATURE
+  }
+
+  isMaxTemperature() {
+    return this.temperature === this.maxTemperature;
   }
 
   energyUsage() {

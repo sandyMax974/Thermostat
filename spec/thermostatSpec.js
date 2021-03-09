@@ -13,9 +13,9 @@ describe("Thermostat", function() {
     expect(thermostat.MINIMUM_TEMPERATURE).toEqual(10);
   });
 
-  describe("isPowerSaving", function() {
+  describe("PowerSaving", function() {
     it("returns true when power saving is on", function(){      
-      expect(thermostat.isPowerSaving).toEqual(true)
+      expect(thermostat.powerSaving).toEqual(true)
     })
   })
 
@@ -39,8 +39,7 @@ describe("Thermostat", function() {
     })
 
     it("doesn't decreases temperature under 10 degrees", function() {
-      thermostat.temperature = 10
-      thermostat.down()
+      for (var i = 0; i < 11; i++) { thermostat.down() }
       expect(thermostat.temperature).toEqual(10)
     })
   })
@@ -48,14 +47,15 @@ describe("Thermostat", function() {
   describe("switchOff", function() {
     it("it switch off power saving mode", function(){
       thermostat.switchOff()
-      expect(thermostat.isPowerSaving).toEqual(false)
+      expect(thermostat.powerSaving).toEqual(false)
     })
   })
+
   describe("switchOn", function(){
     it("switch on into power saving mode", function(){
       thermostat.switchOff()
       thermostat.switchOn()
-      expect(thermostat.isPowerSaving).toEqual(true)
+      expect(thermostat.powerSaving).toEqual(true)
     })
   })
 
@@ -65,13 +65,20 @@ describe("Thermostat", function() {
     })
   })
 
+  describe("isPowerSavingOn", function() {
+    it("should return true when power saving mode is ON", function() {
+      expect(thermostat.isPowerSavingOn()).toEqual(true)
+    })
+  })
+
   describe("maxTemperature", function() {
     it("swhen power saving mode is on, should equal 25", function() {
       expect(thermostat.maxTemperature).toEqual(25)
     })
-    it("swhen power saving mode is off, should equal 32", function() {
+    it("when power saving mode is off, should equal 32", function() {
       thermostat.switchOff()
-      expect(thermostat.maxTemperature).toEqual(32)
+      for (var i = 0; i < 15; i++) { thermostat.up() }
+      expect(thermostat.getTemperature()).toEqual(32)
     })
   })
 
@@ -85,16 +92,23 @@ describe("Thermostat", function() {
 
   describe("energyUsage", function() {
     it("returns `low-usage` when under 18 degree", function() {
-      thermostat.temperature = 17;
+      for (var i = 0; i < 13; i++) { thermostat.down() }
       expect(thermostat.energyUsage()).toEqual('low-usage')
     })
     it("returns `medium-usage` when less or equal to 25 degree", function() {
-      thermostat.temperature = 25;
+      for (var i = 0; i < 4; i++) { thermostat.up() }
       expect(thermostat.energyUsage()).toEqual('medium-usage')
     })
     it("returns `high-usage` when superior to 25 degree", function() {
-      thermostat.temperature = 26;
+      thermostat.switchOff()
+      for (var i = 0; i < 7; i++) { thermostat.up() }
       expect(thermostat.energyUsage()).toEqual('high-usage')
+    })
+  })
+
+  describe("isMaxTemperature", function() {
+    it("should return true if temperature is at the max", function() {
+      expect(thermostat.isMaxTemperature()).toEqual(false)
     })
   })
 });
