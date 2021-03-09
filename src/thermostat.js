@@ -2,6 +2,7 @@ class Thermostat {
   constructor() {
     this.temperature = 20;
     this.MINIMUM_TEMPERATURE = 10;
+    this.isPowerSaving = true;
   }
 
   up() {
@@ -13,5 +14,12 @@ class Thermostat {
       this.temperature -= 1
     }
   }
-};
 
+  switchOn() {
+    this.isPowerSaving = true
+  }
+
+  switchOff() {
+    this.isPowerSaving = false
+  }
+};
