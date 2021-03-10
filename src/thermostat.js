@@ -34,6 +34,9 @@ class Thermostat {
   switchOn() {
     this.powerSaving = true;
     this.maxTemperature = this.MAX_TEMPERATURE_ON;
+    if (this.getTemperature() > this.maxTemperature) {
+      this.temperature = this.maxTemperature;
+    }
   }
 
   switchOff() {
