@@ -33,7 +33,8 @@ $("#powersaving-on").click(function() {
 
 function updateTemperature() {
   $('#temperature').text(thermostat.getTemperature());
-}
+  $('#temperature').attr('class', thermostat.energyUsage());
+};
 
 displayWeather('London')
 
